@@ -1,1 +1,5 @@
 Cell_Phones_and_Accessories/Cell_Phones_and_Accessories.json
+*.csv
+*.json
+data/
+Cell_Phones_and_Accessories/

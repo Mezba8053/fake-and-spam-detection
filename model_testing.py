@@ -6,7 +6,8 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.sparse import hstack
-
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, accuracy_score
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 import torch.nn as nn
@@ -158,7 +159,6 @@ x1['has_url'] = x1['text_str'].apply(lambda x: 1 if 'http' in x or 'www' in x el
 
 
 
-
 # 3. Category
 
 # ✔ Include
@@ -170,3 +170,21 @@ x1['has_url'] = x1['text_str'].apply(lambda x: 1 if 'http' in x or 'www' in x el
 # This helps detect category–text mismatch
 # One-hot encoding for category
 category_dummies = pd.get_dummies(x1['category'], prefix='cat')
+X_train_full = hstack([
+    X_train,
+    train_dataset_x1[['rating', 'text_len', 'excl_count', 'has_url']].values,
+    category_dummies.loc[train_dataset_x1.index].values
+])
+X_val_full = hstack([
+    X_val,
+    validation_dataset_x1[['rating', 'text_len', 'excl_count', 'has_url']].values,
+    category_dummies.loc[validation_dataset_x1.index].values
+])
+X_test_full = hstack([
+    X_test,
+    test_dataset_x1[['rating', 'text_len', 'excl_count', 'has_url']].values,
+    category_dummies.loc[test_dataset_x1.index].values
+])
+print(f"Training full features shape: {X_train_full.shape}")
+print(f"Validation full features shape: {X_val_full.shape}")
+print(f"Test full features shape: {X_test_full.shape}")
