@@ -168,7 +168,7 @@ python save_models.py
 ## 📚 Dataset
 
 - **Source**: Amazon reviews (multiple categories)
-- **Size**: ~25,000 annotated reviews
+- **Size**: ~46,000 annotated reviews
 - **Labels**: Real (genuine), Spam (off-topic), Fake (deceptive)
 - **Features**: Review text, rating, product category
 
